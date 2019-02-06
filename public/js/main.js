@@ -130,18 +130,27 @@ function () {
     this.removeBird = removeBird;
     this.speed = speed;
     this.el = this.render();
+    this.addClickHandler();
   }
 
   _createClass(Bird, [{
+    key: "addClickHandler",
+    value: function addClickHandler() {
+      this.el.addEventListener('click', function () {
+        return console.log('bird shot');
+      });
+    }
+  }, {
     key: "update",
     value: function update() {
       this.position = this.position + this.speed;
 
       if (this.position > window.innerWidth) {
         this.removeBird(this);
+        this.el.remove();
+      } else {
+        this.el.style.left = this.position + 'px';
       }
-
-      this.el.style.left = this.position + 'px';
     }
   }, {
     key: "destroy",
@@ -175,8 +184,6 @@ function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Game; });
 /* harmony import */ var _Bird__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Bird */ "./js/Bird.js");
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
-
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
@@ -203,11 +210,14 @@ function () {
 
     _classCallCheck(this, Game);
 
+    _defineProperty(this, "birds", []);
+
+    _defineProperty(this, "counter", 0);
+
     _defineProperty(this, "removeBird", function (bird) {
       var index = _this.birds.indexOf(bird);
 
-      _this.birds = [].concat(_toConsumableArray(_this.birds.slice(0, index)), _toConsumableArray(_this.birds.slice(index + 1)));
-      console.log(_this.birds.length); // this.birds.splice(index, 1)
+      _this.birds = [].concat(_toConsumableArray(_this.birds.slice(0, index)), _toConsumableArray(_this.birds.slice(index + 1))); // console.log(this.birds.length)
     });
 
     this.createBirds();
@@ -217,19 +227,25 @@ function () {
   _createClass(Game, [{
     key: "createBirds",
     value: function createBirds() {
+      this.addBird();
+      this.addBird();
+      this.addBird();
+      this.addBird();
+    }
+  }, {
+    key: "addBird",
+    value: function addBird() {
       var config = {
         removeBird: this.removeBird
       };
-      this.birds = [new _Bird__WEBPACK_IMPORTED_MODULE_0__["default"](_objectSpread({}, config, {
-        color: 'hotpink',
-        speed: 5
-      })), new _Bird__WEBPACK_IMPORTED_MODULE_0__["default"](config), new _Bird__WEBPACK_IMPORTED_MODULE_0__["default"](config), new _Bird__WEBPACK_IMPORTED_MODULE_0__["default"](config)];
+      this.birds = [].concat(_toConsumableArray(this.birds), [new _Bird__WEBPACK_IMPORTED_MODULE_0__["default"](config)]);
     }
   }, {
     key: "loop",
     value: function loop() {
       var _this2 = this;
 
+      this.counter++ % 60 === 0 && this.addBird();
       this.birds.forEach(function (bird) {
         return bird.update();
       });

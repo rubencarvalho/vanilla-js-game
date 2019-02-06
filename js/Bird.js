@@ -14,14 +14,21 @@ export default class Bird {
     this.removeBird = removeBird
     this.speed = speed
     this.el = this.render()
+    this.addClickHandler()
+  }
+
+  addClickHandler() {
+    this.el.addEventListener('click', () => console.log('bird shot'))
   }
 
   update() {
     this.position = this.position + this.speed
     if (this.position > window.innerWidth) {
       this.removeBird(this)
+      this.el.remove()
+    } else {
+      this.el.style.left = this.position + 'px'
     }
-    this.el.style.left = this.position + 'px'
   }
 
   destroy() {}
