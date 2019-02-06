@@ -123,11 +123,15 @@ function () {
         color = _config.color,
         speed = _config.speed,
         position = _config.position,
-        removeBird = _config.removeBird;
+        onRemove = _config.onRemove,
+        onClick = _config.onClick,
+        onEscape = _config.onEscape;
     this.config = config;
+    this.onRemove = onRemove;
+    this.onClick = onClick;
+    this.onEscape = onEscape;
     this.position = position;
     this.color = color;
-    this.removeBird = removeBird;
     this.speed = speed;
     this.el = this.render();
     this.addClickHandler();
@@ -139,11 +143,16 @@ function () {
       var _this = this;
 
       this.el.addEventListener('click', function () {
-        // addPlayerPoint(this)
-        _this.el.classList.add('hit');
+        _this.onClick();
 
-        console.log('bird shot');
+        _this.remove();
       });
+    }
+  }, {
+    key: "remove",
+    value: function remove() {
+      this.onRemove(this);
+      this.el.remove();
     }
   }, {
     key: "update",
@@ -151,8 +160,8 @@ function () {
       this.position = this.position + this.speed;
 
       if (this.position > window.innerWidth) {
-        this.removeBird(this);
-        this.el.remove(); // addBirdsPoint()
+        this.remove();
+        this.onEscape();
       } else {
         this.el.style.left = this.position + 'px';
       }
@@ -229,6 +238,7 @@ function () {
       this.el = document.createElement('div');
       this.el.className = 'scoreBox';
       document.body.insertAdjacentElement('beforeend', this.el);
+      this.el.innerHTML = this.playerPoints + ' : ' + this.birdsPoints;
       return this.el;
     }
   }]);
@@ -287,6 +297,14 @@ function () {
       _this.birds = [].concat(_toConsumableArray(_this.birds.slice(0, index)), _toConsumableArray(_this.birds.slice(index + 1)));
     });
 
+    _defineProperty(this, "updatePlayerPoints", function () {
+      _this.counter.addPlayerPoint();
+    });
+
+    _defineProperty(this, "updateBirdPoints", function () {
+      _this.counter.addBirdsPoint();
+    });
+
     this.createBirds();
     this.createCounter();
     this.loop();
@@ -296,11 +314,6 @@ function () {
     key: "createCounter",
     value: function createCounter() {
       this.counter = new _Counter__WEBPACK_IMPORTED_MODULE_1__["default"]();
-      this.counter.addPlayerPoint();
-      this.counter.addPlayerPoint();
-      this.counter.addBirdsPoint();
-      this.counter.addBirdsPoint();
-      this.counter.addBirdsPoint();
     }
   }, {
     key: "createBirds",
@@ -314,7 +327,9 @@ function () {
     key: "addBird",
     value: function addBird() {
       var config = {
-        removeBird: this.removeBird
+        onRemove: this.removeBird,
+        onClick: this.updatePlayerPoints,
+        onEscape: this.updateBirdPoints
       };
       this.birds = [].concat(_toConsumableArray(this.birds), [new _Bird__WEBPACK_IMPORTED_MODULE_0__["default"](config)]);
     }

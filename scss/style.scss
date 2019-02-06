@@ -12,9 +12,11 @@
 
 .scoreBox {
   font-family: 'Courier New', Courier, monospace;
-  font-size: 2em;
-  width: 120px;
-  height: 60px;
+  font-size: 1.5em;
+  min-width: 80px;
+  width: auto;
+  padding: 12px;
+  height: auto;
   position: absolute;
   top: 80px;
   left: 20px;

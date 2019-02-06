@@ -7,11 +7,13 @@ export default class Bird {
 
   constructor(config) {
     config = { ...this.defaultConfig, ...config }
-    const { color, speed, position, removeBird } = config
+    const { color, speed, position, onRemove, onClick, onEscape } = config
     this.config = config
+    this.onRemove = onRemove
+    this.onClick = onClick
+    this.onEscape = onEscape
     this.position = position
     this.color = color
-    this.removeBird = removeBird
     this.speed = speed
     this.el = this.render()
     this.addClickHandler()
@@ -19,18 +21,21 @@ export default class Bird {
 
   addClickHandler() {
     this.el.addEventListener('click', () => {
-      // addPlayerPoint(this)
-      this.el.classList.add('hit')
-      console.log('bird shot')
+      this.onClick()
+      this.remove()
     })
+  }
+
+  remove() {
+    this.onRemove(this)
+    this.el.remove()
   }
 
   update() {
     this.position = this.position + this.speed
     if (this.position > window.innerWidth) {
-      this.removeBird(this)
-      this.el.remove()
-      // addBirdsPoint()
+      this.remove()
+      this.onEscape()
     } else {
       this.el.style.left = this.position + 'px'
     }

@@ -23,6 +23,7 @@ export default class Counter {
     this.el = document.createElement('div')
     this.el.className = 'scoreBox'
     document.body.insertAdjacentElement('beforeend', this.el)
+    this.el.innerHTML = this.playerPoints + ' : ' + this.birdsPoints
     return this.el
   }
 }

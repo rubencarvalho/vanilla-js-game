@@ -11,11 +11,6 @@ export default class Game {
 
   createCounter() {
     this.counter = new Counter()
-    this.counter.addPlayerPoint()
-    this.counter.addPlayerPoint()
-    this.counter.addBirdsPoint()
-    this.counter.addBirdsPoint()
-    this.counter.addBirdsPoint()
   }
 
   createBirds() {
@@ -27,7 +22,9 @@ export default class Game {
 
   addBird() {
     const config = {
-      removeBird: this.removeBird,
+      onRemove: this.removeBird,
+      onClick: this.updatePlayerPoints,
+      onEscape: this.updateBirdPoints,
     }
     this.birds = [...this.birds, new Bird(config)]
   }
@@ -35,6 +32,14 @@ export default class Game {
   removeBird = bird => {
     const index = this.birds.indexOf(bird)
     this.birds = [...this.birds.slice(0, index), ...this.birds.slice(index + 1)]
+  }
+
+  updatePlayerPoints = () => {
+    this.counter.addPlayerPoint()
+  }
+
+  updateBirdPoints = () => {
+    this.counter.addBirdsPoint()
   }
 
   loop() {
