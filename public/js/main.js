@@ -114,7 +114,7 @@ function () {
 
     _defineProperty(this, "defaultConfig", {
       color: 'black',
-      speed: 2 + Math.random() * 8,
+      speed: 2 + Math.random() * 2,
       position: 0
     });
 
@@ -136,8 +136,13 @@ function () {
   _createClass(Bird, [{
     key: "addClickHandler",
     value: function addClickHandler() {
+      var _this = this;
+
       this.el.addEventListener('click', function () {
-        return console.log('bird shot');
+        // addPlayerPoint(this)
+        _this.el.classList.add('hit');
+
+        console.log('bird shot');
       });
     }
   }, {
@@ -147,14 +152,11 @@ function () {
 
       if (this.position > window.innerWidth) {
         this.removeBird(this);
-        this.el.remove();
+        this.el.remove(); // addBirdsPoint()
       } else {
         this.el.style.left = this.position + 'px';
       }
     }
-  }, {
-    key: "destroy",
-    value: function destroy() {}
   }, {
     key: "render",
     value: function render() {
@@ -173,6 +175,71 @@ function () {
 
 /***/ }),
 
+/***/ "./js/Counter.js":
+/*!***********************!*\
+  !*** ./js/Counter.js ***!
+  \***********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Counter; });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var Counter =
+/*#__PURE__*/
+function () {
+  function Counter() {
+    _classCallCheck(this, Counter);
+
+    _defineProperty(this, "playerPoints", 0);
+
+    _defineProperty(this, "birdsPoints", 0);
+
+    this.el = this.render();
+  }
+
+  _createClass(Counter, [{
+    key: "addPlayerPoint",
+    value: function addPlayerPoint() {
+      this.playerPoints++;
+      this.update();
+    }
+  }, {
+    key: "addBirdsPoint",
+    value: function addBirdsPoint() {
+      this.birdsPoints++;
+      this.update();
+    }
+  }, {
+    key: "update",
+    value: function update() {
+      this.el.innerHTML = this.playerPoints + ' : ' + this.birdsPoints;
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      this.el = document.createElement('div');
+      this.el.className = 'scoreBox';
+      document.body.insertAdjacentElement('beforeend', this.el);
+      return this.el;
+    }
+  }]);
+
+  return Counter;
+}();
+
+
+
+/***/ }),
+
 /***/ "./js/Game.js":
 /*!********************!*\
   !*** ./js/Game.js ***!
@@ -184,6 +251,7 @@ function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Game; });
 /* harmony import */ var _Bird__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Bird */ "./js/Bird.js");
+/* harmony import */ var _Counter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Counter */ "./js/Counter.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
@@ -202,6 +270,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
 var Game =
 /*#__PURE__*/
 function () {
@@ -212,19 +281,28 @@ function () {
 
     _defineProperty(this, "birds", []);
 
-    _defineProperty(this, "counter", 0);
-
     _defineProperty(this, "removeBird", function (bird) {
       var index = _this.birds.indexOf(bird);
 
-      _this.birds = [].concat(_toConsumableArray(_this.birds.slice(0, index)), _toConsumableArray(_this.birds.slice(index + 1))); // console.log(this.birds.length)
+      _this.birds = [].concat(_toConsumableArray(_this.birds.slice(0, index)), _toConsumableArray(_this.birds.slice(index + 1)));
     });
 
     this.createBirds();
+    this.createCounter();
     this.loop();
   }
 
   _createClass(Game, [{
+    key: "createCounter",
+    value: function createCounter() {
+      this.counter = new _Counter__WEBPACK_IMPORTED_MODULE_1__["default"]();
+      this.counter.addPlayerPoint();
+      this.counter.addPlayerPoint();
+      this.counter.addBirdsPoint();
+      this.counter.addBirdsPoint();
+      this.counter.addBirdsPoint();
+    }
+  }, {
     key: "createBirds",
     value: function createBirds() {
       this.addBird();
@@ -245,7 +323,7 @@ function () {
     value: function loop() {
       var _this2 = this;
 
-      this.counter++ % 60 === 0 && this.addBird();
+      Math.random() < 1 / 60 && this.addBird();
       this.birds.forEach(function (bird) {
         return bird.update();
       });

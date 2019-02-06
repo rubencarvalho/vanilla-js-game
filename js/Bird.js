@@ -1,7 +1,7 @@
 export default class Bird {
   defaultConfig = {
     color: 'black',
-    speed: 2 + Math.random() * 8,
+    speed: 2 + Math.random() * 2,
     position: 0,
   }
 
@@ -18,7 +18,11 @@ export default class Bird {
   }
 
   addClickHandler() {
-    this.el.addEventListener('click', () => console.log('bird shot'))
+    this.el.addEventListener('click', () => {
+      // addPlayerPoint(this)
+      this.el.classList.add('hit')
+      console.log('bird shot')
+    })
   }
 
   update() {
@@ -26,12 +30,11 @@ export default class Bird {
     if (this.position > window.innerWidth) {
       this.removeBird(this)
       this.el.remove()
+      // addBirdsPoint()
     } else {
       this.el.style.left = this.position + 'px'
     }
   }
-
-  destroy() {}
 
   render() {
     const el = document.createElement('div')

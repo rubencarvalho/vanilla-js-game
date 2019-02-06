@@ -4,4 +4,22 @@
   height: 40px;
   border-radius: 50%; }
 
+.hit {
+  background: crimson !important;
+  z-index: -1; }
+
+.scoreBox {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 2em;
+  width: 120px;
+  height: 60px;
+  position: absolute;
+  top: 80px;
+  left: 20px;
+  background: #ddd;
+  border: 2px dashed black;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
 /*# sourceMappingURL=style.css.map */
