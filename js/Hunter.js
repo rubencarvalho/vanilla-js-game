@@ -1,15 +1,27 @@
 export default class Hunter {
+  position = window.innerWidth / 2
+  speed = 0
   constructor() {
     this.el = this.render()
     this.setupMovement()
   }
 
+  update() {
+    this.position += this.speed
+    this.el.style.left = this.position + 'px'
+  }
+
   setupMovement() {
-    document.body.addEventListener('keyup', event => {
+    document.body.addEventListener('keydown', event => {
       if (event.key === 'ArrowLeft') {
-        console.log('Left')
+        this.speed = -10
       } else if (event.key === 'ArrowRight') {
-        console.log('Right')
+        this.speed = 10
+      }
+    })
+    document.body.addEventListener('keyup', () => {
+      if (['ArrowLeft', 'ArrowRight'].includes(event.key)) {
+        this.speed = 0
       }
     })
   }
@@ -17,7 +29,7 @@ export default class Hunter {
   render() {
     const el = document.createElement('div')
     el.className = 'hunter'
-    document.body.insertAdjacentElement('afterbegin', el)
+    document.body.insertAdjacentElement('beforeend', el)
     return el
   }
 }

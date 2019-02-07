@@ -296,12 +296,12 @@ function () {
 
     _classCallCheck(this, Game);
 
-    _defineProperty(this, "birds", []);
+    _defineProperty(this, "entities", []);
 
     _defineProperty(this, "removeBird", function (bird) {
-      var index = _this.birds.indexOf(bird);
+      var index = _this.entities.indexOf(bird);
 
-      _this.birds = [].concat(_toConsumableArray(_this.birds.slice(0, index)), _toConsumableArray(_this.birds.slice(index + 1)));
+      _this.entities = [].concat(_toConsumableArray(_this.entities.slice(0, index)), _toConsumableArray(_this.entities.slice(index + 1)));
     });
 
     _defineProperty(this, "updatePlayerPoints", function () {
@@ -326,6 +326,7 @@ function () {
     key: "createHunter",
     value: function createHunter() {
       this.hunter = new _Hunter__WEBPACK_IMPORTED_MODULE_2__["default"]();
+      this.entities = [].concat(_toConsumableArray(this.entities), [this.hunter]);
     }
   }, {
     key: "addBird",
@@ -335,7 +336,7 @@ function () {
         onClick: this.updatePlayerPoints,
         onEscape: this.updateBirdPoints
       };
-      this.birds = [].concat(_toConsumableArray(this.birds), [new _Bird__WEBPACK_IMPORTED_MODULE_0__["default"](config)]);
+      this.entities = [].concat(_toConsumableArray(this.entities), [new _Bird__WEBPACK_IMPORTED_MODULE_0__["default"](config)]);
     }
   }, {
     key: "loop",
@@ -343,8 +344,8 @@ function () {
       var _this2 = this;
 
       Math.random() < 1 / 50 && this.addBird();
-      this.birds.forEach(function (bird) {
-        return bird.update();
+      this.entities.forEach(function (entity) {
+        return entity.update();
       });
       requestAnimationFrame(function () {
         return _this2.loop();
@@ -375,24 +376,43 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 var Hunter =
 /*#__PURE__*/
 function () {
   function Hunter() {
     _classCallCheck(this, Hunter);
 
+    _defineProperty(this, "position", window.innerWidth / 2);
+
+    _defineProperty(this, "speed", 0);
+
     this.el = this.render();
     this.setupMovement();
   }
 
   _createClass(Hunter, [{
+    key: "update",
+    value: function update() {
+      this.position += this.speed;
+      this.el.style.left = this.position + 'px';
+    }
+  }, {
     key: "setupMovement",
     value: function setupMovement() {
-      document.body.addEventListener('keyup', function (event) {
+      var _this = this;
+
+      document.body.addEventListener('keydown', function (event) {
         if (event.key === 'ArrowLeft') {
-          console.log('Left');
+          _this.speed = -10;
         } else if (event.key === 'ArrowRight') {
-          console.log('Right');
+          _this.speed = 10;
+        }
+      });
+      document.body.addEventListener('keyup', function () {
+        if (['ArrowLeft', 'ArrowRight'].includes(event.key)) {
+          _this.speed = 0;
         }
       });
     }
@@ -401,7 +421,7 @@ function () {
     value: function render() {
       var el = document.createElement('div');
       el.className = 'hunter';
-      document.body.insertAdjacentElement('afterbegin', el);
+      document.body.insertAdjacentElement('beforeend', el);
       return el;
     }
   }]);

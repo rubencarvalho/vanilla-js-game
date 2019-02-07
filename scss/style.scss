@@ -1,41 +1,11 @@
-body {
-  background: skyblue;
-  user-select: none;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  height: 100vh;
+* {
+  box-sizing: border-box;
 }
 
-.wave::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background-repeat: repeat-x;
-  height: 10px;
-  background-size: 20px 20px;
-  background-image: radial-gradient(
-    circle at 10px -5px,
-    transparent 12px,
-    white 13px
-  );
-}
-.wave::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background-repeat: repeat-x;
-  height: 15px;
-  background-size: 40px 20px;
-  background-image: radial-gradient(
-    circle at 10px 15px,
-    white 12px,
-    transparent 13px
-  );
+body {
+  overflow: hidden;
+  height: 100vh;
+  background: skyblue;
 }
 
 .bird {
@@ -44,14 +14,6 @@ body {
   height: 40px;
   border-radius: 50%;
   border: 1px solid black;
-}
-
-.bird:after {
-}
-
-.hit {
-  background: crimson !important;
-  z-index: -1;
 }
 
 .scoreBox {
@@ -72,8 +34,32 @@ body {
 }
 
 .hunter {
-  background: olive;
-  width: 200px;
-  height: 200px;
+  background: gray;
+  width: 20px;
+  height: 100px;
   border-radius: 20px 20px 0 0;
+  position: absolute;
+  bottom: 0;
+  right: calc(50%)
+  
+  &:before {
+    content: '';
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    background: olive;
+    position: absolute;
+    right: calc(50% - 40px);
+  }
+
+  &:after {
+    content: '';
+    border-radius: 20px 20px 0 0;
+    width: 80px;
+    height: 20px;
+    background: olive;
+    position: absolute;
+    bottom: 0;
+    right: calc(50% - 40px);
+  }
 }
