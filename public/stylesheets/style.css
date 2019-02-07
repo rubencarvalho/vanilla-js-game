@@ -1,8 +1,39 @@
+body {
+  background: skyblue;
+  user-select: none;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 100vh; }
+
+.wave::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-repeat: repeat-x;
+  height: 10px;
+  background-size: 20px 20px;
+  background-image: radial-gradient(circle at 10px -5px, transparent 12px, white 13px); }
+
+.wave::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-repeat: repeat-x;
+  height: 15px;
+  background-size: 40px 20px;
+  background-image: radial-gradient(circle at 10px 15px, white 12px, transparent 13px); }
+
 .bird {
   position: absolute;
   width: 40px;
   height: 40px;
-  border-radius: 50%; }
+  border-radius: 50%;
+  border: 1px solid black; }
 
 .hit {
   background: crimson !important;
@@ -16,12 +47,18 @@
   padding: 12px;
   height: auto;
   position: absolute;
-  top: 80px;
-  left: 20px;
+  top: 20px;
+  right: 20px;
   background: #ddd;
   border: 2px dashed black;
   display: flex;
   justify-content: center;
   align-items: center; }
+
+.hunter {
+  background: olive;
+  width: 200px;
+  height: 200px;
+  border-radius: 20px 20px 0 0; }
 
 /*# sourceMappingURL=style.css.map */

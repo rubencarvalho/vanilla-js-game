@@ -1,23 +1,21 @@
 import Bird from './Bird'
 import Counter from './Counter'
+import Hunter from './Hunter'
 
 export default class Game {
   birds = []
   constructor() {
-    this.createBirds()
     this.createCounter()
     this.loop()
+    this.createHunter()
   }
 
   createCounter() {
     this.counter = new Counter()
   }
 
-  createBirds() {
-    this.addBird()
-    this.addBird()
-    this.addBird()
-    this.addBird()
+  createHunter() {
+    this.hunter = new Hunter()
   }
 
   addBird() {
@@ -43,7 +41,7 @@ export default class Game {
   }
 
   loop() {
-    Math.random() < 1 / 60 && this.addBird()
+    Math.random() < 1 / 50 && this.addBird()
     this.birds.forEach(bird => bird.update())
     requestAnimationFrame(() => this.loop())
   }
