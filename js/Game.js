@@ -1,6 +1,7 @@
 import Bird from './Bird'
 import Counter from './Counter'
 import Hunter from './Hunter'
+import Bullet from './Bullet'
 
 export default class Game {
   entities = []
@@ -10,26 +11,33 @@ export default class Game {
     this.createHunter()
   }
 
+  shoot = positionX => {
+    this.entities = [
+      ...this.entities,
+      new Bullet({ onRemove: this.removeEntity, positionX }),
+    ]
+  }
+
   createCounter() {
     this.counter = new Counter()
   }
 
   createHunter() {
-    this.hunter = new Hunter()
+    this.hunter = new Hunter({ onShoot: this.shoot })
     this.entities = [...this.entities, this.hunter]
   }
 
   addBird() {
     const config = {
-      onRemove: this.removeBird,
+      onRemove: this.removeEntity,
       onClick: this.updatePlayerPoints,
       onEscape: this.updateBirdPoints,
     }
     this.entities = [...this.entities, new Bird(config)]
   }
 
-  removeBird = bird => {
-    const index = this.entities.indexOf(bird)
+  removeEntity = entity => {
+    const index = this.entities.indexOf(entity)
     this.entities = [
       ...this.entities.slice(0, index),
       ...this.entities.slice(index + 1),

@@ -7,6 +7,7 @@ export default class Counter extends Entity {
   constructor() {
     super()
     this.el = this.render('scoreBox')
+    this.el.innerHTML = this.playerPoints + ' : ' + this.birdsPoints
   }
 
   addPlayerPoint() {

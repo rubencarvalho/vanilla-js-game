@@ -28,11 +28,6 @@ export default class Bird extends Entity {
     })
   }
 
-  remove() {
-    this.onRemove(this)
-    this.el.remove()
-  }
-
   update() {
     this.position.x += this.speed
     this.position.y =

@@ -10,4 +10,9 @@ export default class Entity {
     document.body.insertAdjacentElement('beforeend', el)
     return el
   }
+
+  remove() {
+    this.onRemove && this.onRemove(this)
+    this.el.remove()
+  }
 }

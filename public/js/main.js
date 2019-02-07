@@ -178,12 +178,6 @@ function (_Entity) {
       });
     }
   }, {
-    key: "remove",
-    value: function remove() {
-      this.onRemove(this);
-      this.el.remove();
-    }
-  }, {
     key: "update",
     value: function update() {
       this.position.x += this.speed;
@@ -200,6 +194,87 @@ function (_Entity) {
   }]);
 
   return Bird;
+}(_Entity__WEBPACK_IMPORTED_MODULE_0__["default"]);
+
+
+
+/***/ }),
+
+/***/ "./js/Bullet.js":
+/*!**********************!*\
+  !*** ./js/Bullet.js ***!
+  \**********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Bullet; });
+/* harmony import */ var _Entity__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Entity */ "./js/Entity.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var Bullet =
+/*#__PURE__*/
+function (_Entity) {
+  _inherits(Bullet, _Entity);
+
+  function Bullet(config) {
+    var _this;
+
+    _classCallCheck(this, Bullet);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Bullet).call(this));
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "position", {
+      x: 0,
+      y: 50
+    });
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "speed", 20);
+
+    var onRemove = config.onRemove,
+        positionX = config.positionX;
+    _this.onRemove = onRemove;
+    _this.el = _this.render('bullet', {
+      left: positionX + 'px'
+    });
+    return _this;
+  }
+
+  _createClass(Bullet, [{
+    key: "update",
+    value: function update() {
+      this.position.y += this.speed; // this.el.style.left = this.position.x + 'px'
+
+      this.el.style.bottom = this.position.y + 'px';
+
+      if (this.position.y > window.innerHeight) {
+        this.remove();
+      }
+    }
+  }]);
+
+  return Bullet;
 }(_Entity__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 
@@ -256,6 +331,7 @@ function (_Entity) {
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "birdsPoints", 0);
 
     _this.el = _this.render('scoreBox');
+    _this.el.innerHTML = _this.playerPoints + ' : ' + _this.birdsPoints;
     return _this;
   }
 
@@ -323,6 +399,12 @@ function () {
       document.body.insertAdjacentElement('beforeend', el);
       return el;
     }
+  }, {
+    key: "remove",
+    value: function remove() {
+      this.onRemove && this.onRemove(this);
+      this.el.remove();
+    }
   }]);
 
   return Entity;
@@ -345,6 +427,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Bird__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Bird */ "./js/Bird.js");
 /* harmony import */ var _Counter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Counter */ "./js/Counter.js");
 /* harmony import */ var _Hunter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Hunter */ "./js/Hunter.js");
+/* harmony import */ var _Bullet__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Bullet */ "./js/Bullet.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
@@ -365,6 +448,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
 var Game =
 /*#__PURE__*/
 function () {
@@ -375,8 +459,15 @@ function () {
 
     _defineProperty(this, "entities", []);
 
-    _defineProperty(this, "removeBird", function (bird) {
-      var index = _this.entities.indexOf(bird);
+    _defineProperty(this, "shoot", function (positionX) {
+      _this.entities = [].concat(_toConsumableArray(_this.entities), [new _Bullet__WEBPACK_IMPORTED_MODULE_3__["default"]({
+        onRemove: _this.removeEntity,
+        positionX: positionX
+      })]);
+    });
+
+    _defineProperty(this, "removeEntity", function (entity) {
+      var index = _this.entities.indexOf(entity);
 
       _this.entities = [].concat(_toConsumableArray(_this.entities.slice(0, index)), _toConsumableArray(_this.entities.slice(index + 1)));
     });
@@ -402,14 +493,16 @@ function () {
   }, {
     key: "createHunter",
     value: function createHunter() {
-      this.hunter = new _Hunter__WEBPACK_IMPORTED_MODULE_2__["default"]();
+      this.hunter = new _Hunter__WEBPACK_IMPORTED_MODULE_2__["default"]({
+        onShoot: this.shoot
+      });
       this.entities = [].concat(_toConsumableArray(this.entities), [this.hunter]);
     }
   }, {
     key: "addBird",
     value: function addBird() {
       var config = {
-        onRemove: this.removeBird,
+        onRemove: this.removeEntity,
         onClick: this.updatePlayerPoints,
         onEscape: this.updateBirdPoints
       };
@@ -475,7 +568,7 @@ var Hunter =
 function (_Entity) {
   _inherits(Hunter, _Entity);
 
-  function Hunter() {
+  function Hunter(config) {
     var _this;
 
     _classCallCheck(this, Hunter);
@@ -486,6 +579,8 @@ function (_Entity) {
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "speed", 0);
 
+    var onShoot = config.onShoot;
+    _this.onShoot = onShoot;
     _this.el = _this.render('hunter');
 
     _this.setupMovement();
@@ -509,6 +604,8 @@ function (_Entity) {
           _this2.speed = -10;
         } else if (event.key === 'ArrowRight') {
           _this2.speed = 10;
+        } else if (event.key === ' ') {
+          _this2.onShoot(_this2.position);
         }
       });
       document.body.addEventListener('keyup', function () {

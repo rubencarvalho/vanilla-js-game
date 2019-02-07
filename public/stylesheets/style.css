@@ -56,4 +56,13 @@ body {
     bottom: 0;
     right: calc(50% - 40px); }
 
+.bullet {
+  border-radius: 5px 5px 0 0;
+  position: absolute;
+  width: 10px;
+  height: 20px;
+  background: black;
+  bottom: 0;
+  transform: translate(100%); }
+
 /*# sourceMappingURL=style.css.map */
