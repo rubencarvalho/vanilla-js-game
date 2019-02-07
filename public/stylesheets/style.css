@@ -4,7 +4,8 @@
 body {
   overflow: hidden;
   height: 100vh;
-  background: skyblue; }
+  background: skyblue;
+  user-select: none; }
 
 .bird {
   position: absolute;
@@ -31,7 +32,7 @@ body {
 
 .hunter {
   background: gray;
-  width: 20px;
+  width: 30px;
   height: 100px;
   border-radius: 20px 20px 0 0;
   position: absolute;
@@ -41,7 +42,7 @@ body {
     content: '';
     border-radius: 50%;
     width: 10px;
-    height: 10px;
+    height: 20px;
     background: olive;
     position: absolute;
     right: calc(50% - 40px); }

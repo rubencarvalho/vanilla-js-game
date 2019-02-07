@@ -1,9 +1,12 @@
-export default class Counter {
+import Entity from './Entity'
+
+export default class Counter extends Entity {
   playerPoints = 0
   birdsPoints = 0
 
   constructor() {
-    this.el = this.render()
+    super()
+    this.el = this.render('scoreBox')
   }
 
   addPlayerPoint() {
@@ -17,13 +20,5 @@ export default class Counter {
   }
   update() {
     this.el.innerHTML = this.playerPoints + ' : ' + this.birdsPoints
-  }
-
-  render() {
-    this.el = document.createElement('div')
-    this.el.className = 'scoreBox'
-    document.body.insertAdjacentElement('beforeend', this.el)
-    this.el.innerHTML = this.playerPoints + ' : ' + this.birdsPoints
-    return this.el
   }
 }
