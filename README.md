@@ -1,6 +1,6 @@
-# Express boilerplate
+# HIT IT!
 
-A simple boilerplate for websites without modern JS in the frontend
+An arcade point and shoot game. (JavaScript, HTML and CSS). 
 
 ## Top features
 - ES7+ with Babel
